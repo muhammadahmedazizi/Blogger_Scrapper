@@ -1,10 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
+import csv
 import urllib3
 
 url = 'http://ranaii-e-khayal.blogspot.com/2020/11/%20%20%20%20%20%20%20.html'
 
-blog_url = 'http://ranaii-e-khayal.blogspot.com'
+blog_url = 'http://anqasha.blogspot.com/'
 
 
 over_all_post_lins = []
@@ -49,36 +50,60 @@ def page_links_extractor(blog_url):
 
 
 
+def post_scrapper (urls):
+    for url in urls:
+        page = requests.get(url)
+        data = page.text
+        page.close()
+
+        soup = BeautifulSoup(data, 'html.parser')
+
+        for post in soup.find_all('div', class_='post'):
+            title = post.find('h3', class_='post-title')
+            title= title.get_text(separator='\n')
+
+            body = post.find('div', class_='post-body')
+            body = body.get_text(separator='\n')
+
+            date = post.find('abbr', class_='published')
+            date = date.get_text(separator='\n')
+
+            if post.find('span', class_='post-labels'):
+                labels = post.find('span', class_='post-labels').text
+                labels = labels.split(':')
+                if len(labels) > 1:
+                    labels = labels[1]
+                    labels = labels.replace('\n',' ')
+                else:
+                    labels = ''
 
 
-def post_scrapper (url):
-    page = requests.get(url)
-    data = page.text
-    page.close()
+            with open('shokhi-e-tehreer.txt', 'a', encoding='utf-8') as f:
+                pass
+                f.write(title+'\n')
+                f.write(body+'\n')
+                f.write(date+'\n')
+                f.write(labels+'\n')
+                #data_handler = csv.writer(f, delimiter=",")
+                #data_handler.writerow(
+                #    [title, body, new_labels, date])
 
-    soup = BeautifulSoup(data, 'lxml')
 
-    for post in soup.find_all('div', class_='post'):
-        title = post.find('h3', class_='post-title')
-        body = post.find('div', class_='post-body')
-        date = post.find('abbr', class_='published')
 
-        labels = post.find('span', class_='post-labels').text
-        labels = labels.split(':')
-        labels = labels[1]
-        labels = labels.split(',')
-        new_labels = list(map(str.strip, labels))
 
-        print (title)
-        print (body)
-        print(new_labels)
-        print (date)
+#new_list = ["http://ranaii-e-khayal.blogspot.com/2020/11/%20%20%20%20%20%20%20.html"]
+
+
+
 
 #blog_scrapper(url)
 
 #links_extractor(blog_url)
-print (extract_post_links(page_links_extractor(blog_url)))
+links_of_posts = extract_post_links(page_links_extractor(blog_url))
 
-#p_links = ['http://ranaii-e-khayal.blogspot.com/search?updated-max=2009-10-17T12:01:00%2B06:00&max-results=12&reverse-paginate=true','http://ranaii-e-khayal.blogspot.com/search?updated-max=2009-07-15T13:08:00%2B06:00&max-results=12&start=373&by-date=false']
+#short_links = ['http://ranaii-e-khayal.blogspot.com/search?updated-max=2009-10-17T12:01:00%2B06:00&max-results=12&reverse-paginate=true','http://ranaii-e-khayal.blogspot.com/search?updated-max=2009-07-15T13:08:00%2B06:00&max-results=12&start=373&by-date=false']
 
-#print(extract_post_links(p_links))
+post_scrapper(links_of_posts)
+#print(extract_post_links())
+
+#'http://anqasha.blogspot.com/'
