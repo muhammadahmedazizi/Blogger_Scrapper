@@ -96,28 +96,17 @@ def post_scrapper (urls):
             # args_list_for_csv.append(labels+'\n')
 
             #print(title, body, date, labels)
-            try:
-                write_csv(title, body, date, labels)
-            except:
-                print ('error')
+            write_csv(csv_file_name, title, body, date, labels)
 
 
 
 
 
-#new_list = ["http://ranaii-e-khayal.blogspot.com/2020/11/%20%20%20%20%20%20%20.html"]
 
-
-
-
-#blog_scrapper(url)
-
-#links_extractor(blog_url)
-#links_of_posts = extract_post_links(page_links_extractor(blog_url))
+links_of_posts = extract_post_links(page_links_extractor(blog_url))
 
 #short_links = ['http://ranaii-e-khayal.blogspot.com/search?updated-max=2009-10-17T12:01:00%2B06:00&max-results=12&reverse-paginate=true','http://ranaii-e-khayal.blogspot.com/search?updated-max=2009-07-15T13:08:00%2B06:00&max-results=12&start=373&by-date=false']
 
-post_scrapper(['http://tabishain.blogspot.com'])
+post_scrapper(links_of_posts)
 #print(extract_post_links())
 
-#'http://anqasha.blogspot.com/'
