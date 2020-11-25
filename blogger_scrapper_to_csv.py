@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
+from write_csv import write_csv
+
 import csv
 import urllib3
 
@@ -87,15 +89,18 @@ def post_scrapper (urls):
             else:
                 labels = ''
 
+            # args_list_for_csv = []
+            # args_list_for_csv.append(title+'\n')
+            # args_list_for_csv.append(body+'\n')
+            # args_list_for_csv.append(date+'\n')
+            # args_list_for_csv.append(labels+'\n')
 
-            with open(txt_file_name, 'a', encoding='utf-8') as f:
-                f.write(title+'\n')
-                f.write(body+'\n')
-                f.write(date+'\n')
-                f.write(labels+'\n')
-                #data_handler = csv.writer(f, delimiter=",")
-                #data_handler.writerow(
-                #    [title, body, new_labels, date])
+            #print(title, body, date, labels)
+            try:
+                write_csv(title, body, date, labels)
+            except:
+                print ('error')
+
 
 
 
